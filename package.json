@@ -1,0 +1,24 @@
+{
+  "name": "wallora.graphql",
+  "version": "1.0.0",
+  "description": "GraphQL endpoint for wallora.com and mobile apps",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shoonyatech/wallora.graphql.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shoonyatech/wallora.graphql/issues"
+  },
+  "homepage": "https://github.com/shoonyatech/wallora.graphql#readme",
+  "dependencies": {
+    "apollo-server": "^2.25.1",
+    "graphql": "^15.5.0"
+  }
+}
