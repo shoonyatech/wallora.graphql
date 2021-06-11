@@ -1,17 +1,12 @@
 import { ApolloServer } from "apollo-server";
-import bookResolvers from "./resolvers/books.js";
-import bookTypeDef from "./models/book.js";
-
-// A schema is a collection of type definitions (hence "typeDefs")
-// that together define the "shape" of queries that are executed against
-// your data.
+import userResolvers from "./resolvers/user.js";
+import { User } from "./schema.js";
 
 const server = new ApolloServer({
-  typeDefs: bookTypeDef,
-  resolvers: bookResolvers,
+  typeDefs: User,
+  resolvers: userResolvers,
 });
 
-// The `listen` method launches a web server.
 server.listen().then(({ url }) => {
   console.log(`🚀  Server ready at ${url}`);
 });
