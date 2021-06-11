@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/shoonyatech/wallora.graphql#readme",
   "dependencies": {
+    "apollo-datasource-rest": "^0.14.0",
     "apollo-server": "^2.25.1",
     "graphql": "^15.5.0"
   },
