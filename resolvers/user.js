@@ -1,8 +1,9 @@
-import userSettings from "../dummy-data/user-settings.js";
-
 const userResolvers = {
   Query: {
-    user: () => ({ userSettings }),
+    user: async (root, {}, { dataSources }) => {
+      const userSettings = await dataSources.walloraAPI.getUserSettings();
+      return { userSettings };
+    },
   },
 };
 
