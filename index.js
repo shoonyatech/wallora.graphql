@@ -9,6 +9,9 @@ const server = new ApolloServer({
   dataSources: () => ({
     walloraAPI: new WalloraAPI(),
   }),
+  context: ({ req }) => ({
+    accessToken: req.headers["x-access-token"],
+  }),
 });
 
 server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {

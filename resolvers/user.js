@@ -1,7 +1,9 @@
 const userResolvers = {
   Query: {
-    user: async (root, {}, { dataSources }) => {
-      const userSettings = await dataSources.walloraAPI.getUserSettings();
+    user: async (root, {}, { accessToken, dataSources }) => {
+      const userSettings = await dataSources.walloraAPI.getUserSettings(
+        accessToken
+      );
       return { userSettings };
     },
   },
