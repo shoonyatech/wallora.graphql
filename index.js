@@ -1,6 +1,5 @@
 import { ApolloServer } from "apollo-server";
-import resolvers from "./resolvers/index.js";
-import schemaArray from "./schema/index.js";
+import { schemaArray, resolvers } from "./schema/index.js";
 import { WalloraAPI } from "./datasource.js";
 
 const server = new ApolloServer({

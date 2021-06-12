@@ -1,4 +1,5 @@
 import { gql } from "apollo-server";
+import predictedSavings from "../dummy-data/predicted-savings.js";
 
 const typeDef = gql`
   type Money {
@@ -20,4 +21,10 @@ const typeDef = gql`
   }
 `;
 
-export { typeDef };
+const chartsResolvers = {
+  Query: {
+    charts: () => ({ predictedSavings }),
+  },
+};
+
+export { typeDef, chartsResolvers };
