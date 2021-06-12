@@ -1,11 +1,11 @@
 import { ApolloServer } from "apollo-server";
-import userResolvers from "./resolvers/user.js";
-import { User } from "./schema.js";
+import resolvers from "./resolvers/index.js";
+import schemaArray from "./schema/index.js";
 import { WalloraAPI } from "./datasource.js";
 
 const server = new ApolloServer({
-  typeDefs: User,
-  resolvers: userResolvers,
+  typeDefs: schemaArray,
+  resolvers: resolvers,
   dataSources: () => ({
     walloraAPI: new WalloraAPI(),
   }),

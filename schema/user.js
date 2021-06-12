@@ -10,7 +10,7 @@ const typeDef = gql`
     userSettings: UserSettings
   }
 
-  type Query {
+  extend type Query {
     user: User
   }
 `;
