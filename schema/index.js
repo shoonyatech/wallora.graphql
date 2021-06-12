@@ -13,6 +13,6 @@ const root = gql`
 `;
 
 const schemaArray = [root, User, Charts];
-const resolvers = { ...userResolvers, ...chartsResolvers };
+const resolvers = [userResolvers, chartsResolvers];
 
 export { schemaArray, resolvers };
