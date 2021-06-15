@@ -1,10 +1,15 @@
 import { gql } from "apollo-server";
 import predictedSavings from "../dummy-data/predicted-savings.js";
+import plannedExpenses from "../dummy-data/planned-expenses.js";
 
 const typeDef = gql`
-  type Money {
-    currencyCode: String
-    amount: Float
+  extend type Query {
+    charts: Charts
+  }
+
+  type Charts {
+    predictedSavings: [SavingsThisMonth]
+    plannedExpenses: [WorkItemWiseSavings]
   }
 
   type SavingsThisMonth {
@@ -12,18 +17,20 @@ const typeDef = gql`
     savings: Money
   }
 
-  type Charts {
-    predictedSavings: [SavingsThisMonth]
+  type Money {
+    currencyCode: String
+    amount: Float
   }
 
-  extend type Query {
-    charts: Charts
+  type WorkItemWiseSavings {
+    name: String
+    amount: Float
   }
 `;
 
 const chartsResolvers = {
   Query: {
-    charts: () => ({ predictedSavings }),
+    charts: () => ({ predictedSavings, plannedExpenses }),
   },
 };
 
