@@ -5,11 +5,17 @@ const typeDef = gql`
     currency: String
     accountId: String
   }
+  
+  type totalAmount {
+    type: String 
+    amount: Float
+  }
 
   type User {
     userSettings: UserSettings
   }
 
+  
   extend type Query {
     user: User
   }

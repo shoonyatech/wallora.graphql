@@ -14,5 +14,14 @@ export class WalloraAPI extends RESTDataSource {
         authorization: `Bearer ${v2AccessToken}`,
       },
     });
+  }  
+  async getWorkItems(v1AccessToken,v2AccessToken) {
+    return this.get("workitems",null, { 
+      headers: {
+        "x-access-token": v1AccessToken,
+        authorization: `Bearer ${v2AccessToken}`,
+      }
+    })
   }
+
 }
