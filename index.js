@@ -9,7 +9,7 @@ const server = new ApolloServer({
     walloraAPI: new WalloraAPI(),
   }),
   context: ({ req }) => ({
-    accessToken: req.headers["x-access-token"],
+    accessToken: req.headers["authorization"].replace("Bearer ", ""),
   }),
 });
 
