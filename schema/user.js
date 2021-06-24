@@ -17,9 +17,10 @@ const typeDef = gql`
 
 const userResolvers = {
   Query: {
-    user: async (root, {}, { accessToken, dataSources }) => {
+    user: async (root, {}, { v1AccessToken, v2AccessToken, dataSources }) => {
       const userSettings = await dataSources.walloraAPI.getUserSettings(
-        accessToken
+        v1AccessToken,
+        v2AccessToken
       );
       return { userSettings };
     },
