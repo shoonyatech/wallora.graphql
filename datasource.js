@@ -6,11 +6,12 @@ export class WalloraAPI extends RESTDataSource {
     this.baseURL = "https://wallora-api.herokuapp.com/api/";
   }
 
-  async getUserSettings(accessToken) {
+  async getUserSettings(v1AccessToken, v2AccessToken) {
     return this.get("user-settings", null, {
       cacheOptions: { ttl: 60 },
       headers: {
-        authorization: accessToken,
+        "x-access-token": v1AccessToken,
+        authorization: `Bearer ${v2AccessToken}`,
       },
     });
   }

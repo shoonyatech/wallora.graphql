@@ -30,7 +30,7 @@ const typeDef = gql`
 
 const chartsResolvers = {
   Query: {
-    charts: (root, {}, { accessToken, dataSources }) => {
+    charts: (root, {}, { v1AccessToken, v2AccessToken, dataSources }) => {
       return { predictedSavings, plannedExpenses };
     },
   },
