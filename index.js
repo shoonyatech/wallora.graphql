@@ -9,8 +9,8 @@ const server = new ApolloServer({
     walloraAPI: new WalloraAPI(),
   }),
   context: ({ req }) => ({
-    v1AccessToken: req.headers["x-access-token"],
-    v2AccessToken: req.headers["authorization"]
+    v1AccessToken: req.headers["x-access-token"] || '',
+    v2AccessToken: req.headers["authorization"] 
       ? req.headers["authorization"].replace("Bearer ", "")
       : "",
   }),
