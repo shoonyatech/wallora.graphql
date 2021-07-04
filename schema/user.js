@@ -18,6 +18,7 @@ const typeDef = gql`
 const userResolvers = {
   Query: {
     user: async (root, {}, { v1AccessToken, v2AccessToken, dataSources }) => {
+      console.log(`v1 token:${v1AccessToken}, v2 token:${v2AccessToken}`)
       const userSettings = await dataSources.walloraAPI.getUserSettings(
         v1AccessToken,
         v2AccessToken
