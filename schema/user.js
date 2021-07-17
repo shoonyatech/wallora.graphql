@@ -1,24 +1,25 @@
 import { gql } from "apollo-server";
 
 const typeDef = gql`
-  type UserSettings {
-    currency: String
-    accountId: String
-  }
-  
-  type totalAmount {
-    type: String 
-    amount: Float
+  extend type Query {
+    user: User
   }
 
   type User {
     userSettings: UserSettings
+    currencies: [Currency]
   }
 
-  
-  extend type Query {
-    user: User
+  type UserSettings {
+    currency: String
+    accountId: String
   }
+
+  type Currency {
+    symbol: String 
+    code: String 
+    name: String
+  }  
 `;
 
 const userResolvers = {
@@ -29,7 +30,11 @@ const userResolvers = {
         v1AccessToken,
         v2AccessToken
       );
-      return { userSettings };
+      const currencies = await dataSources.walloraAPI.getCurrencies(
+        v1AccessToken,
+        v2AccessToken
+      );
+      return { userSettings, currencies };
     },
   },
 };
