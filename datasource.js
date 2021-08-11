@@ -26,4 +26,7 @@ export class WalloraAPI extends RESTDataSource {
   async getCurrencies(v1AccessToken,v2AccessToken) {
     return this.get("currencies",null, { headers: this.getHeaders(v1AccessToken, v2AccessToken) })
   }
+  async getSummaryInfo(v1AccessToken,v2AccessToken) {
+    return this.get("summaryInfo",null, { headers: this.getHeaders(v1AccessToken, v2AccessToken) })
+  }
 }
