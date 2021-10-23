@@ -26,4 +26,9 @@ export class WalloraAPI extends RESTDataSource {
   async getCurrencies(v1AccessToken,v2AccessToken) {
     return this.get("currencies",null, { headers: this.getHeaders(v1AccessToken, v2AccessToken) })
   }
+  async getActualsDatesWorkItems(v1AccessToken,v2AccessToken,dates) {
+    return this.get(`workitem-instances?startdate=${dates.startDate}&enddate=${dates.endDate}&populate=0`, null, { 
+      headers: this.getHeaders(v1AccessToken, v2AccessToken),
+    });
+  }
 }
