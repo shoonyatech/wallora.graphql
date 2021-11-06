@@ -102,6 +102,25 @@ const financeResolvers = {
       });
       return dates;
     },
+    incomeExpenseCategoriesWorkItems: async (root, { }, { v1AccessToken, v2AccessToken, dataSources }) => {
+      const workItems = await dataSources.walloraAPI.getWorkItems(
+        v1AccessToken,
+        v2AccessToken
+      )
+      const masaged = [];
+      workItems.map((item, index) => {
+        masaged.push({
+          id: index,
+          order: item.order,
+          name: item.name,
+          incomeOrExpense: item.incomeOrExpense,
+          currency: 'INR',
+          plannedTotal: 1000,
+          actualTotal: 1000
+        });
+      });
+      return masaged;
+    },
   }
 };
 
