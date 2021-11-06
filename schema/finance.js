@@ -1,4 +1,5 @@
 import { gql } from "apollo-server";
+import _ from 'underscore';
 
 const typeDef = gql`
 
@@ -69,6 +70,7 @@ const typeDef = gql`
   extend type Query {
     finance: Finance
     actualsDates(startDate: String!, endDate: String!): [actualsDates]
+    incomeExpenseCategoriesWorkItems: [incomeExpenseCategoriesWorkItems]
   }
 `;
 
@@ -80,7 +82,8 @@ const financeResolvers = {
         v1AccessToken,
         v2AccessToken
       )
-      return {workItems };
+      // console.dir(workItems);
+      return { workItems };
     },
     actualsDates: async (root, args, { v1AccessToken, v2AccessToken, dataSources }) => {
       const workItems = await dataSources.walloraAPI.getActualsDatesWorkItems(
@@ -88,13 +91,14 @@ const financeResolvers = {
         v2AccessToken,
         args
         );
-      let dates = [];
-      workItems.map((item, index) => {
-        if (index > 0 && item.date === workItems[index - 1].date) {
-          dates[index - 1] = { date: item.date, totalSpent: workItems[index - 1].amount + item.amount };
-        } else {
-          dates.push({ date: item.date, totalSpent: item.amount });
-        }
+      const groups = _.groupBy(workItems, 'date');
+      const dates = _.map(groups, (value, key) => {
+        return { 
+          date: key, 
+          totalSpent: _.reduce(value, (total, o) => { 
+              return total + o.amount;
+          }, 0) 
+        };
       });
       return dates;
     },
