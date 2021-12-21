@@ -2,6 +2,7 @@ import { gql } from "apollo-server";
 import predictedSavings from "../dummy-data/predicted-savings.js";
 import plannedExpenses from "../dummy-data/planned-expenses.js";
 import myCurrentWorth from "../dummy-data/my-current-worth.js";
+import myOweData from "../dummy-data/my-owe-data.js";
 
 const typeDef = gql`
   extend type Query {
@@ -12,6 +13,12 @@ const typeDef = gql`
     myCurrentWorth: [TotalWorth]
     predictedSavings: [SavingsThisMonth]
     plannedExpenses: [WorkItemWiseSavings]
+    myOweData: [TotalOweWorth]
+  }
+
+  type TotalOweWorth {
+    name: String
+    amount: Float
   }
 
   type TotalWorth {
@@ -38,7 +45,7 @@ const typeDef = gql`
 const chartsResolvers = {
   Query: {
     charts: (root, {}, { v1AccessToken, v2AccessToken, dataSources }) => {
-      return { myCurrentWorth ,predictedSavings, plannedExpenses };
+      return { myCurrentWorth, myOweData, predictedSavings, plannedExpenses };
     },
     
   },
