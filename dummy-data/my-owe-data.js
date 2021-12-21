@@ -9,4 +9,4 @@ const myOweData = [
     }
 ];
 
-export default myOweData;
+export default myOweData; 
