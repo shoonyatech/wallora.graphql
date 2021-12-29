@@ -11,13 +11,14 @@ const typeDef = gql`
   }
 
   type incomeExpenseCategoriesWorkItems {
-    id: Int
+    id: String
     order: Int
     name: String
     incomeOrExpense: String
     currency: String
     plannedTotal: Int
     actualTotal: Int
+    balanceTotal: Float
   }
 
   type actualsWorkItems {
@@ -103,23 +104,35 @@ const financeResolvers = {
       return dates;
     },
     incomeExpenseCategoriesWorkItems: async (root, { }, { v1AccessToken, v2AccessToken, dataSources }) => {
-      const workItems = await dataSources.walloraAPI.getWorkItems(
-        v1AccessToken,
-        v2AccessToken
-      )
+      const plannedWorkItmes = await dataSources.walloraAPI.getPlannedWorkItems(v1AccessToken, v2AccessToken);
+      const actualWorkItems = await dataSources.walloraAPI.getActualsWorkItems(v1AccessToken, v2AccessToken);
+      const massagedActualWorkItems = _.map(actualWorkItems, (actualWorkItem) => {
+        return {
+          id: actualWorkItem.workitemId,
+          totalActualAmount: actualWorkItem.totalActualAmount
+        }
+      });
+      // merge planned and actual work items
+      var indexed = _.indexBy(massagedActualWorkItems, 'id');
+      const workItems = _.map(plannedWorkItmes, function(obj) {
+        var master = indexed[obj.workitem.id];
+        return _.extend({}, master, obj);
+      });
       const masaged = [];
+      
       workItems.map((item, index) => {
         masaged.push({
-          id: index,
-          order: item.order,
-          name: item.name,
-          incomeOrExpense: item.incomeOrExpense,
+          id: item.workitem.id,
+          order: item.workitem.order,
+          name: item.workitem.name,
+          incomeOrExpense: item.workitem.incomeOrExpense,
           currency: 'INR',
-          plannedTotal: 1000,
-          actualTotal: 1000
+          plannedTotal: item.totalPlannedAmount,
+          actualTotal: item.totalActualAmount,
+          balanceTotal: (item.totalPlannedAmount && item.totalActualAmount) ? ((item.totalActualAmount / item.totalPlannedAmount) * 100).toFixed(2) : 0
         });
       });
-      return masaged;
+      return _.sortBy(masaged, function(o) { return o.order; })
     },
   }
 };

@@ -31,4 +31,30 @@ export class WalloraAPI extends RESTDataSource {
       headers: this.getHeaders(v1AccessToken, v2AccessToken),
     });
   }
+  /**
+   * Get planned amount for Income and Expense Categories 
+   * @param v1AccessToken 
+   * @param v2AccessToken 
+   * @param dates { startMonth: String, endMonth: String }
+   * @returns workItems for Income and Expense Categories
+   */
+  async getPlannedWorkItems(v1AccessToken,v2AccessToken, month) {
+    console.log('Access Token1:', v1AccessToken);
+    console.log('Access Token2:', v2AccessToken);
+    return this.get(`stats/total-planned-amount-workitemwise?startmonth=202112&endmonth=202112`, null, { 
+      headers: this.getHeaders(v1AccessToken, v2AccessToken) 
+    });
+  }
+  /**
+   * Get actual amount for Income and Expense Categories 
+   * @param v1AccessToken 
+   * @param v2AccessToken 
+   * @param dates { startMonth: String, endMonth: String }
+   * @returns workItems for Income and Expense Categories
+   */
+  async getActualsWorkItems(v1AccessToken,v2AccessToken) {
+    return this.get(`stats/total-actual-amount-workitemwise?startdate=20211201&enddate=20211231`, null, { 
+      headers: this.getHeaders(v1AccessToken, v2AccessToken) 
+    });
+  }
 }
