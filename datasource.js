@@ -31,4 +31,9 @@ export class WalloraAPI extends RESTDataSource {
       headers: this.getHeaders(v1AccessToken, v2AccessToken),
     });
   }
+  async getActualMonthsWorkItems(v1AccessToken,v2AccessToken,months) {
+    return this.get(`workitem-plans?startmonth=${months.startMonth}&endmonth=${months.endMonth}&populate=0`, null, { 
+      headers: this.getHeaders(v1AccessToken, v2AccessToken),
+    });
+  }
 }
