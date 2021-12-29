@@ -92,7 +92,7 @@ const financeResolvers = {
     },
     actualsDates: async (root, args, { v1AccessToken, v2AccessToken, dataSources }) => {
       const workItems = await dataSources.walloraAPI.getActualsDatesWorkItems(
-        v1AccessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Imd1ZXN0QHdhbGxvcmEuY29tIiwidXNlcm5hbWUiOiJndWVzdEB3YWxsb3JhLmNvbSIsImZpcnN0TmFtZSI6Ikd1ZXN0IiwibGFzdE5hbWUiOiJVc2VyIiwiaWF0IjoxNjQwNTk1MjQ3LCJleHAiOjE2NDA2ODE2NDd9.j3xKjU8JwXRBZ-xMrrAZNBA3xi8JD3sOI79JBtLebJ4",
+        v1AccessToken,
         v2AccessToken,
         args
         );
@@ -109,7 +109,7 @@ const financeResolvers = {
       },
       actualMonths: async (root, args, { v1AccessToken, v2AccessToken, dataSources }) => {
         const workItems2 = await dataSources.walloraAPI.getActualMonthsWorkItems(
-            v1AccessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Imd1ZXN0QHdhbGxvcmEuY29tIiwidXNlcm5hbWUiOiJndWVzdEB3YWxsb3JhLmNvbSIsImZpcnN0TmFtZSI6Ikd1ZXN0IiwibGFzdE5hbWUiOiJVc2VyIiwiaWF0IjoxNjQwNzc0MDIyLCJleHAiOjE2NDA4NjA0MjJ9.hIqyaurImqFF-sF85zu7ChYlqLUCDqkJt9TD3ocp38Y",
+            v1AccessToken,
             v2AccessToken,
             args
           );
