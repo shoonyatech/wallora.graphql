@@ -36,4 +36,19 @@ export class WalloraAPI extends RESTDataSource {
       headers: this.getHeaders(v1AccessToken, v2AccessToken),
     });
   }
+  async getBanks(v1AccessToken,v2AccessToken) {
+    return this.get("banks",null, { headers: this.getHeaders(v1AccessToken, v2AccessToken) })
+  }
+  async getInvestments(v1AccessToken,v2AccessToken) {
+    return this.get("investments",null, { headers: this.getHeaders(v1AccessToken, v2AccessToken) })
+  }
+  async getCashAtHome(v1AccessToken,v2AccessToken) {
+    return this.get("cash-at-home",null, { headers: this.getHeaders(v1AccessToken, v2AccessToken) })
+  }
+  async getCreditCards(v1AccessToken,v2AccessToken) {
+    return this.get("credit-cards",null, { headers: this.getHeaders(v1AccessToken, v2AccessToken) })
+  }
+  async getLoans(v1AccessToken,v2AccessToken) {
+    return this.get("loans",null, { headers: this.getHeaders(v1AccessToken, v2AccessToken) })
+  }
 }
