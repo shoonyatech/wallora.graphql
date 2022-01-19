@@ -51,4 +51,9 @@ export class WalloraAPI extends RESTDataSource {
   async getLoans(v1AccessToken,v2AccessToken) {
     return this.get("loans",null, { headers: this.getHeaders(v1AccessToken, v2AccessToken) })
   }
+  async getTotalMonthsAmount(v1AccessToken,v2AccessToken,months) {
+    return this.get(`stats/total-planned-amount-monthwise?startmonth=${months.startMonth}&endmonth=${months.endMonth}`, null, {
+      headers: this.getHeaders(v1AccessToken, v2AccessToken) 
+    })
+  }
 }

@@ -10,6 +10,12 @@ const typeDef = gql`
     plan: planMonths
   }
 
+  type TotalMonthsAmount {
+    month: String
+    totalPlannedExpenses: Int
+    totalPlannedIncome: Int
+  }
+
   type incomeExpenseCategoriesWorkItems {
     id: Int
     order: Int
@@ -76,6 +82,7 @@ const typeDef = gql`
     actualsDates(startDate: String!, endDate: String!): [actualsDates]
     incomeExpenseCategoriesWorkItems: [incomeExpenseCategoriesWorkItems]
     actualMonths(startMonth: String!, endMonth: String!): [actualMonths]
+    totalMonthsAmount(startMonth: String!, endMonth: String!): [TotalMonthsAmount]
   }
 `;
 
@@ -86,10 +93,9 @@ const financeResolvers = {
       const workItems = await dataSources.walloraAPI.getWorkItems(
         v1AccessToken,
         v2AccessToken
-      )
-      // console.dir(workItems);
-      return { workItems };
-    },
+        )
+        return { workItems };
+      },
     actualsDates: async (root, args, { v1AccessToken, v2AccessToken, dataSources }) => {
       const workItems = await dataSources.walloraAPI.getActualsDatesWorkItems(
         v1AccessToken,
@@ -109,7 +115,7 @@ const financeResolvers = {
       },
       actualMonths: async (root, args, { v1AccessToken, v2AccessToken, dataSources }) => {
         const workItems2 = await dataSources.walloraAPI.getActualMonthsWorkItems(
-            v1AccessToken,
+            v1AccessToken ,
             v2AccessToken,
             args
           );
@@ -121,6 +127,26 @@ const financeResolvers = {
         });
         return months ;
     },
+    totalMonthsAmount: async (root, args, { v1AccessToken, v2AccessToken, dataSources }) => {
+      const workItems = await dataSources.walloraAPI.getTotalMonthsAmount(
+        v1AccessToken,
+        v2AccessToken,
+        args
+        );
+        const groups = _.groupBy(workItems, 'month');
+        const months = _.map(groups, (value, key) => {
+          return {
+            month: key,
+            totalPlannedExpenses: _.reduce(value, (total, o) => {
+              return total + o.totalPlannedExpenses;
+            }, 0),
+            totalPlannedIncome: _.reduce(value, (total, o) => {
+              return total + o.totalPlannedIncome;
+            }, 0),
+          };
+        });
+        return months;
+      },
     incomeExpenseCategoriesWorkItems: async (root, { }, { v1AccessToken, v2AccessToken, dataSources }) => {
       const workItems = await dataSources.walloraAPI.getWorkItems(
         v1AccessToken,
