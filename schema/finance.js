@@ -16,6 +16,17 @@ const typeDef = gql`
     totalPlannedIncome: Int
   }
 
+  type getMonthlyData {
+    month: Int
+    amount: Int
+  }
+
+  type getWorklyData {
+    incomeOrExpense: String
+    name: String
+    totalPlannedAmount: Int
+  }
+
   type incomeExpenseCategoriesWorkItems {
     id: Int
     order: Int
@@ -83,6 +94,8 @@ const typeDef = gql`
     incomeExpenseCategoriesWorkItems: [incomeExpenseCategoriesWorkItems]
     actualMonths(startMonth: String!, endMonth: String!): [actualMonths]
     totalMonthsAmount(startMonth: String!, endMonth: String!): [TotalMonthsAmount]
+    monthlyData(startMonth: String!, endMonth: String!): [getMonthlyData]
+    worklyData(startMonth: String!, endMonth: String!): [getWorklyData]
   }
 `;
 
@@ -115,7 +128,7 @@ const financeResolvers = {
       },
       actualMonths: async (root, args, { v1AccessToken, v2AccessToken, dataSources }) => {
         const workItems2 = await dataSources.walloraAPI.getActualMonthsWorkItems(
-            v1AccessToken ,
+            v1AccessToken,
             v2AccessToken,
             args
           );
@@ -146,6 +159,44 @@ const financeResolvers = {
           };
         });
         return months;
+      },
+      monthlyData: async (root, args, { v1AccessToken, v2AccessToken, dataSources }) => {
+        const workItems = await dataSources.walloraAPI.getMonthlyData(
+          v1AccessToken,
+          v2AccessToken,
+          args
+          );
+          let months = [];
+          workItems.map((item, index) => {
+            if(index === 0) {
+              months[index] = {
+                month: item.month,
+                amount: item.amount
+              }
+            } else {
+                months.push({
+                  month: item.month,
+                  amount: item.amount
+                })
+              }
+          });
+          return months;
+      },
+      worklyData: async (root, args, { v1AccessToken, v2AccessToken, dataSources }) => {
+        const workItems = await dataSources.walloraAPI.getWorklyData(
+          v1AccessToken,
+          v2AccessToken,
+          args
+          );
+          let months = [];
+          workItems.map((item, index) => {
+            months.push({
+              incomeOrExpense: item.workitem.incomeOrExpense,
+              name: item.workitem.name,
+              totalPlannedAmount: item.totalPlannedAmount
+            })
+          });
+          return months;
       },
     incomeExpenseCategoriesWorkItems: async (root, { }, { v1AccessToken, v2AccessToken, dataSources }) => {
       const workItems = await dataSources.walloraAPI.getWorkItems(
